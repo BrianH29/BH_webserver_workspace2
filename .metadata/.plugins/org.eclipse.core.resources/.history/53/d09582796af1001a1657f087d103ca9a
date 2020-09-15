@@ -1,0 +1,15 @@
+package com.kh.notice.model.dao;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+
+import com.kh.notice.model.vo.Notice;
+import static com.kh.common.JDBCTemplate.*;
+
+public class NoticeDao {
+	
+	public ArrayList<Notice> selecNoticeList(Connection conn){
+		
+	}
+
+}

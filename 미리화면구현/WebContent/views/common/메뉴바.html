@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #loginForm, #userInfo{
+            float:right; 
+        }
+
+        #loginForm button{
+            border:none;
+            padding:5px;
+            border-radius:5px;
+        }
+        #loginForm button:first-child{background:yellowgreen;}
+        #loginForm button:last-child{background:orangered;}
+        #userInfo a{
+            color:black;
+            text-decoration:none;
+            font-size:12px; 
+        }
+
+        .navWrap{background:black;}
+        .menu{
+            display:table-cell;
+            height:50px;
+            width: 150px;
+        }
+        .menu a {
+            text-decoration:none;
+            color:white; 
+            font-weight:bold;
+            font-size:16px; 
+            display:block;
+            width:100%; 
+            height:100%;
+            line-height:50px; 
+
+        }
+        .menu:hover{background:darkgrey; }
+
+
+    </style>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <h1 align="center">Welcome JSP World!!</h1>
+
+    <div class="loginArea">
+
+        <!-- 1. 로그인 전에 보여지는 로그인 form -->
+       
+        <form id="loginForm" action="" method="post">
+            <table>
+                <tr>
+                    <th><label for="userId">ID : </label></th>
+                    <td><input type="text" id="userId" name="userId" required></td>
+                </tr>
+                <tr>
+                    <th><label for="userPwd">password:</label></th>
+                    <td><input type="password" id="userPwd" name="userPwd" required></td>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        <button type="submit">LOGIN</button>
+                        <button type="button">REGISTER</button>
+                    </th>
+                </tr>
+            </table>
+        </form>
+     
+
+        <!-- 2.로그인 성공 후 보여지는 div-->
+        <!--
+        <div id="userInfo">
+            <b>XXX님</b>의 방문을 환연합니다. <br><br>
+
+            <div align="center">
+                <a href="">MyPage</a>
+                <a href="">Logout</a>
+            </div>
+
+        </div>
+        -->
+    </div>
+
+    <br clear="both"> <!-- 위 내용들 무시-->
+    <br>
+
+    <div class="navWrap" align="center">
+        <div class="menu"><a href="">HOME</a></div>
+        <div class="menu"><a href="">공지사항</a></div>
+        <div class="menu"><a href="">일반게시판</a></div>
+        <div class="menu"><a href="">사진게시판</a></div>
+    </div>
+
+</body>
+</html>
