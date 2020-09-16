@@ -170,7 +170,7 @@ INSERT
      , CREATE_DATE
     )
 VALUES
-    )
+    (
        SEQ_BNO.NEXTVAL
      , 1
      , ?
@@ -184,16 +184,57 @@ VALUES
 INSERT
   INTO ATTACHMENT
      ( 
-       FIL_NO
+       FILE_NO
      , REF_BNO
      , ORIGIN_NAME
      , CHANGE_NAME
      , FILE_PATH
-     , UPLOAD_DATE
-     , FILE_LEVEL
-     , STATUS
      )
+VALUES
+     (
+       SEQ_FNO.NEXTVAL
+     , SEQ_BNO.CURRVAL  --성공적인 마지막 번호를 가져 오는거!! 위에서 받은 번호를 그대로 가젹오기 
+     , ?
+     , ?
+     , ?
+     );
+     
+--3. 일반 게시판 상세조회 요청시 실행할 sql문들
+--3_1. 해당 게시글 찾아서 조회수 증가시키는 sql문
+UPDATE
+      BOARD
+  SET COUNT = COUNT + 1
+WHERE BOARD_NO = ?
+  AND STATUS = 'Y';
 
+-- 3-2 해당 게시글에 대한 정보 조회시 실행시킬 SQL문
+SELECT
+       BOARD_NO
+     , CATEGORY_NAME
+     , BOARD_TITLE
+     , BOARD_CONTENT
+     , USER_ID
+     , CREATE_DATE
+  FROM BOARD B
+  JOIN CATEGORY USING(CATEGORY_NO)
+  JOIN MEMBER ON (BOARD_WRITER = USER_NO)
+ WHERE BOARD_NO = ?
+   AND B.STATUS = 'Y'; 
+
+--3_3. 해당 게시글에 딸려있는 첨부파일에 대한 정보 조회시 실행할 SQL문
+SELECT
+       FILE_NO
+     , ORIGIN_NAME
+     , CHANGE_NAME
+     , FILE_PATH
+  FROM ATTACHMENT
+ WHERE REF_BNO = ?;
+ 
+ --4.일반 게시판 정보 수정 요청시 실행할 sql문들 
+ -- 공통적으로 수행할 SQL문
+ UPDATE
+        BOARD
+    SET 
 
 
 

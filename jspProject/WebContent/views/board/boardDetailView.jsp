@@ -66,7 +66,7 @@
 					첨부파일없습니다.
 				<%}else{ %>				
 				<!--첨부파일이 있을 경우--> 
-					<a href="<%=contextPath %>/<%=at.getFilePath() + at.getChangeName() %>"><%=at.getOriginName() %></a>
+					<a download="<%= at.getOriginName() %>" href="<%=contextPath %>/<%=at.getFilePath() + at.getChangeName() %>"><%=at.getOriginName() %></a>
 				<%} %>
 				</td>
 			</tr>
@@ -75,10 +75,12 @@
 		<br />
 
 		<!-- 로그인한 사용자가 게시글작성자일 경우-->
+		<% if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())) {%>
 		<div align="center">
-			<button>수정하기</button>
+			<button onclick="location.href='<%=contextPath%>/updateForm.bo?bno=<%=b.getBoardNo()%>';">수정하기</button>
 			<button>삭제하기</button>
 		</div>
+		<%} %>
 		<br />
 		<div id="replyArea">
 			<table border="1" align="center">
