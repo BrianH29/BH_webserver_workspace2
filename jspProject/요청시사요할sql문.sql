@@ -234,8 +234,41 @@ SELECT
  -- 공통적으로 수행할 SQL문
  UPDATE
         BOARD
-    SET 
-
+    SET CATEGORY_NO = ?
+      , BOARD_TITLE = ?
+      , BOARD_CONTENT = ?
+  WHERE BOARD_NO = ?;
+  
+  --> 새로운 첨부파일이 전달됐을 경우
+  --> 공통적으로 필요한 값: 새 원본명, 새 수정명, 새 저장경로
+  --> 기본의 첨부파일이 있어을 경우 : +기존의 첨
+  
+  --> 새로운 첨부파일이 전달됐을 경우 _ 기존의 첨부파일이 있었을 경우(Attachment에 정보있음) Attachment update
+  UPDATE
+         ATTACHMENT
+     SET ORIGIN_NAME = ?
+       , CHANGE_NAME = ?
+       , FILE_PATH = ?
+   WHERE FILE_NO = ? 
+  
+  --> 새로운 첨부파일이 전달됐을 경우 _ 기보의 첨부파일이 없었을 경우 (Attachment에 정보없음) Attachment insert
+INSERT
+  INTO ATTACHMENT
+  (
+    FILE_NO
+   , REF_BNO
+   , ORIGIN_NAME
+   , CHANGE_NAME
+   , FILE_PATH
+   )
+   VALUES
+   (
+      SEQ_FNO.NEXTVAL
+    , ?
+    , ?
+    , ?
+    , ?
+   );
 
 
 

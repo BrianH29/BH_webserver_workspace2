@@ -43,7 +43,7 @@
 
 		<%if(loginUser != null){ %>
 		<div align="right" style="width: 810px">
-			<button>글작성</button>
+			<button onclick="location.href='<%=contextPath %>/enrollForm.th';" class="btn btn-primary">글작성</button>
 			<br />
 			<br />
 		</div>
