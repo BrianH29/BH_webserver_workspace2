@@ -15,7 +15,7 @@
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload"/>
 <fullyQualifiedTypeName name="com.kh.board.model.vo.Board"/>
-<fullyQualifiedTypeName name="com.kh.board.model.vo.Attachment"/>
-<fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="com.kh.board.model.vo.Attachment"/>
 </qualifiedTypeNameHistroy>

@@ -14,6 +14,8 @@ public class Board {
 	private Date createDate;			// 게시글 작성일
 	private String status; 				// 상태값
 	
+	private String titleImg; 			// 사진 게시판 타이틀이미지 경로(저장폴더/파일명)
+	
 	public Board() {}
 
 	public Board(int boardNo, int boardType, String category, String boardTitle, String boardContent,
@@ -122,6 +124,14 @@ public class Board {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getTitleImg() {
+		return titleImg;
+	}
+	
+	public void setTitleImg(String titleImg) {
+		this.titleImg = titleImg; 
 	}
 
 	@Override

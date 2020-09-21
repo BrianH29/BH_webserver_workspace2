@@ -323,4 +323,126 @@ public class BoardDao {
 		
 	}
 	
+	public int insertThBoard(Connection conn, Board b) {
+		int result = 0; 
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertThBoard");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, b.getBoardTitle());
+			pstmt.setString(2, b.getBoardContent());
+			pstmt.setInt(3, Integer.parseInt(b.getBoardWriter()));
+			
+			result = pstmt.executeUpdate(); 
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result; 
+		
+	}//e.insertThBoard
+	
+	public int insertAttachmentList(Connection conn, ArrayList<Attachment> list) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertAttachmentList");
+		
+		try {
+			//for(int i=0; i<list.size(); i++) {
+			for(Attachment at : list) {	
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, at.getOriginName());
+				pstmt.setString(2, at.getChangeName());
+				pstmt.setString(3, at.getFilePath());
+				pstmt.setInt(4, at.getFileLevel());
+				
+				//실행 => 실행결과 받기
+				result = pstmt.executeUpdate(); 
+				
+				if(result == 0) {
+					return 0; 
+				}
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result; 
+	}//e.insertAttachment
+	
+	public ArrayList<Board> selectThumbnailList(Connection conn){
+		
+		ArrayList<Board> list = new ArrayList<>(); 
+		
+		Statement stmt = null;
+		ResultSet rset = null; 
+		String sql = prop.getProperty("selectThumbnailList");
+		
+		try {
+			stmt = conn.createStatement();
+			rset = stmt.executeQuery(sql); 
+			
+			while(rset.next()) {
+				Board b = new Board();
+				b.setBoardNo(rset.getInt("BOARD_NO"));
+				b.setBoardTitle(rset.getString("BOARD_TITLE"));
+				b.setCount(rset.getInt("COUNT"));
+				b.setTitleImg(rset.getString("TITLEIMG"));
+				
+				list.add(b); 
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		return list; 
+		
+	}
+	public ArrayList<Attachment> selectAttachmentList(Connection conn, int bno){
+		//select문 => 여러행 조회 
+		
+		ArrayList<Attachment> list = new ArrayList<>(); 
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Attachment at = new Attachment();
+				at.setFileNo(rset.getInt("FILE_NO"));
+				at.setOriginName(rset.getString("ORIGIN_NAME"));
+				at.setChangeName(rset.getString("CHANGE_NAME"));
+				at.setFilePath(rset.getString("FILE_PATH"));
+				
+				list.add(at);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list; 
+	}//e.selectAttachment
 }

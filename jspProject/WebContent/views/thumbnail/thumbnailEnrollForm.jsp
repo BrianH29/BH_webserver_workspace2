@@ -63,7 +63,7 @@
 				</tr>
 			</table>
 
-			<div id="fileArea"\>
+			<div id="fileArea">
 				<input type="file" name="file1" id="file1" onchange="loadImg(this, 1);" required /> 
 				<input type="file" name="file2" id="file2" onchange="loadImg(this, 2);" />
 				<input type="file" name="file3" id="file3" onchange="loadImg(this, 3);" /> 

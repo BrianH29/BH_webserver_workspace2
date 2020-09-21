@@ -270,5 +270,81 @@ INSERT
     , ?
    );
 
+-- 사진게시판 관련 
+-- 1. 사진게시판 작성 요청시 실행 할 sql문
+
+--1-1. BOARD테이블에 INSERT
+INSERT
+  INTO BOARD
+  (
+       BOARD_NO
+     , BOARD_TYPE
+     , BOARD_TITLE
+     , BOARD_CONTENT
+     , BOARD_WRITER
+     , CREATE_DATE
+  )
+  VALUES
+  (
+       SEQ_BNO.NEXTVAL
+     , 2
+     , ?
+     , ?
+     , ?
+     , SYSDATE
+  );
+
+--1-2. ATTACHMENT 테이블에 INSERT
+INSERT 
+  INTO ATTACHMENT
+  (
+       FILE_NO
+     , REF_BNO
+     , ORIGIN_NAME
+     , CHANGE_NAME
+     , FILE_PATH
+     , FILE_LEVEL
+  ) 
+  VALUES
+  (
+       SEQ_FNO.NEXTVAL
+     , SEQ_BNO.CURRVAL
+     , ?
+     , ?
+     , ?
+     , ?
+  );
+
+--2. 사진게시판 리스트 조회시 실행할 sql문
+-- 게시글번호, 게시글제목, 조회수, 타이틀이미지저장경로, + 타이틀이미지실제파일명
+SELECT
+       BOARD_NO
+     , BOARD_TITLE
+     , COUNT
+     , FILE_PATH || CHANGE_NAME "TITLEIMG"
+  FROM BOARD B
+  JOIN ATTACHMENT ON(BOARD_NO=REF_BNO)
+ WHERE BOARD_TYPE = 2
+   AND B.STATUS = 'Y'
+   AND FILE_LEVEL = 1
+ ORDER 
+    BY BOARD_NO DESC;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

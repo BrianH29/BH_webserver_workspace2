@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList, com.kh.board.model.vo.Board" %>
+<%
+	ArrayList<Board> list = (ArrayList<Board>)request.getAttribute("list");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,43 +54,25 @@
 		<%} %>
 	
 		<div class="listArea">
+		
+		<% for(Board b : list){ %>
 			<div class="thumbnail" align="center">
-				<img src="river2.PNG" width="200px" height="150px" /> <br />
+				<input type="hidden" value="<%=b.getBoardNo()%>">
+				<img src="<%=contextPath %>/<%=b.getTitleImg() %>" width="200px" height="150px" /> <br />
 				<p>
-					No.20 제목입니다. <br /> 조회수 : 100
+					No.<%= b.getBoardNo() %> <%=b.getBoardTitle() %> <br /> 
+					조회수 : <%=b.getCount() %>
 				</p>
 			</div>
-			<div class="thumbnail" align="center">
-				<img src="river2.PNG" width="200px" height="150px" /> <br />
-				<p>
-					No.20 제목입니다. <br /> 조회수 : 100
-				</p>
-			</div>
-			<div class="thumbnail" align="center">
-				<img src="river2.PNG" width="200px" height="150px" /> <br />
-				<p>
-					No.20 제목입니다. <br /> 조회수 : 100
-				</p>
-			</div>
-			<div class="thumbnail" align="center">
-				<img src="river2.PNG" width="200px" height="150px" /> <br />
-				<p>
-					No.20 제목입니다. <br /> 조회수 : 100
-				</p>
-			</div>
-			<div class="thumbnail" align="center">
-				<img src="river2.PNG" width="200px" height="150px" /> <br />
-				<p>
-					No.20 제목입니다. <br /> 조회수 : 100
-				</p>
-			</div>
-			<div class="thumbnail" align="center">
-				<img src="river2.PNG" width="200px" height="150px" /> <br />
-				<p>
-					No.20 제목입니다. <br /> 조회수 : 100
-				</p>
-			</div>
+			<%} %>
 		</div>
+		<script>
+			$(function(){
+				$(".thumbnail").click(function(){
+					location.href="<%=contextPath%>/detail.th?bno=" + $(this).children().eq(0).val();
+				});
+			});
+		</script>
 	</div>
 </body>
 </html>
