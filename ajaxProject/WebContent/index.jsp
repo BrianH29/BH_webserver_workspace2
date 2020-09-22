@@ -107,6 +107,128 @@
 			});
 		});
 	</script>
+	<br>
+	<h3>2. 버튼 클릭시 post방식으로 여러개의 데이터 전송 및 응답</h3>
+	이름: <input type="text" id="input2_1"><br>
+	나이: <input type="number" id="input2_2"><br>
+	<button onclick="test2();">전송</button>
+	
+	<br> 
+	응답:<label id="output2">현재 응답결과 없음</label>
+	
+	<script>
+		function test2(){
+			//동기식 요청
+			//location.href = "jqAjax2.do?name=" + $("input2_1").val() + "&age=" +$("input2_2").val(); 
+			
+			$.ajax({
+				url: "jqAjax2.do",
+				data: {
+					name:$("#input2_1").val(),
+					age:$("#input2_2").val()
+				},
+				type: "post",
+				success:function(data){
+					console.log("aja 통신 성공 했습니다.");
+					console.log(data);
+					
+					$("#output2").text(data);
+				},
+				error:function(){
+					console.log("ajax 통신 실패 햿습니다.");
+				}
+			});
+		};
+	</script>
 
+<br>
+	<h3>3. 서버로 데이터 전송 후, 응답데이터를 vo객체로 받아보고자 할 떄</h3>
+	<p>
+		회원번호를 입력하여 조회하고자 하는 사용자 번호를 전달 한 후 그에 대한 응답결과(vo) 받기, <br>
+		조회된 사용자가 없을 경우 "사용자 정보가 없습니다." 출력
+	</p>
+	
+	검색할 회원번호 입력 : 
+	<input type="number" id="userNo">
+	<button onclick="test3();">조회</button>
+	
+	<div id="output3"></div>
+	
+	<script>
+		function test3(){
+			$.ajax({
+				url:"jqAjax3.do",
+				data:{
+					userNo:$("#userNo").val()
+				},
+				type:"get",
+				success:function(obj){
+					//console.log(obj); 
+					
+					var result = "회원번호:" + obj.userNo + "<br>"
+								+ "회원명: " + obj.userName + "<br>"
+								+ "나이: " + obj.age + "<br>"
+								+ "성별: " + obj.gender;
+					
+					$("#output3").html(result);
+								
+				},
+				error:function(){
+					console.log("ajax fail");
+				}
+			});
+		}
+	</script>
+	
+	<br>
+	
+	<h3> 4. 응답페이지로 여러개의 객체들이 담겨있는 ArrayList로 응답</h3>
+	
+	<button onclick="test4();">회원 전체조회</button>
+	
+	<br><br>
+	
+	<table id="memberList" border="1" style="text-align:center">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>이름</th>
+				<th>나이</th>
+				<th>성별</th>
+			</tr>
+		</thead>
+		<tbody>
+		
+		</tbody>
+	
+	</table>
+	
+	<script>
+		function test4(){
+			$.ajax({
+				url:"jqAjax4.do",
+				type:"get",
+				success:function(list){
+					
+					var result = "";
+				
+					for(var i=0; i<list.length; i++){
+						//console.log(list[i].userName);
+						result += "<tr>"+
+									"<td>" + list[i].userNo + "</td>"+
+									"<td>" + list[i].userName + "</td>"+
+									"<td>" + list[i].age + "</td>"+
+									"<td>" + list[i].gem + "</td>"
+								  "</tr>";
+					}
+					$("#memberList tbody").html(result); 
+				},
+				error:function(){
+					console.log("ajax 통신 실패");
+				}
+			});
+		}
+	</script>
+	<br><br><br><br><br><br><br><br>
 </body>
 </html>

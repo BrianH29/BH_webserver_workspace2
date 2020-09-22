@@ -32,7 +32,7 @@
                 <tr>
                     <td>* 아이디</td>
                     <td><input type="text" name="userId" maxlength="12" required></td>
-                    <td><button type="button">중복확인</button></td>
+                    <td><button type="button" onclick="idCheck();">중복확인</button></td>
                 </tr>
                 <tr>
                     <td>*비밀번호</td>
@@ -81,11 +81,60 @@
 
             <br><br>
             <div align="center">
-                <button type="submit">회원가입</button>
+                <button type="submit" disabled id="joinBtn">회원가입</button>
                 <button type="reset">초기화</button>
             </div>
         </form>
         <br><br>
     </div>
+    <script>
+    	function idCheck(){
+    		//console.log("click"); --> 기능이 잘 되고 있는지 확인(중간중간 하는게 좋음) 
+    		
+    		//회원가입폼 안에 사용자가 아이디를 입력하는 input요소 객체 => jQuery 방식으로 선택
+    		var $userId = $("#enrollForm input[name=userId]");
+    		//console.log($userId.val());
+    		
+    		$.ajax({
+    			url:"<%=contextPath%>/idCheck.me",
+    			data:{
+    				checkId:$userId.val()
+    			},
+    			type:"get",
+    			success:function(result){
+    				//console.log("success loading");
+    				console.log(result); 
+    				
+    				if(result == "fail"){//이미존재 사용불가능
+    					//alert로 문구 출력
+    					alert("이미 존재하거나 탈퇴한 회원의 아이디입니다.");
+    					// 다시 입력 할 수 있게 유도 
+    					$userId.focus(); 
+    				}else{//존재x 사용가능
+    					//사용가능한 아이디입니다. 사용하시겠습니까?
+    					//true
+    						//더 이상 아이디값 수정가능하게끔
+    						//회원가입 버튼 활성화(disabled 속성 없앨것)
+    					//false
+    						//다시 재입력할 수 있게 유도
+    					
+    					if(confirm("사용가능한 아이디입니다. 사용하시겠습니까?")){
+    						$userId.attr("readonly",true); //더이상 변경 불가
+    						$("#joinBtn").removeAttr("disabled");
+    						
+    					}else{
+    						$userId.focus(); 
+    					}
+    				
+    				}
+    				
+    			},
+    			error:function(){
+    				console.log("fail loading");
+    			}
+    			
+    		});
+    	}
+    </script>
 </body>
 </html>

@@ -1,8 +1,12 @@
 package com.kh.member.model.service;
 
+import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.commit;
+import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.rollback;
+
 import java.sql.Connection;
 
-import static com.kh.common.JDBCTemplate.*;
 import com.kh.member.model.dao.MemberDao;
 import com.kh.member.model.vo.Member;
 
@@ -104,6 +108,12 @@ public class MemberService {
 		return updateMem; 
 	}//e.updatePwdMember
 	
+	/**
+	 * 5.회원탈퇴용 서비스
+	 * @param userId	탈퇴요청하는 아이디
+	 * @param userPwd
+	 * @return
+	 */
 	public int deleteMember(String userId, String userPwd) {
 		Connection conn = getConnection();
 		
@@ -119,6 +129,21 @@ public class MemberService {
 		return result; 
 		
 	}//e.delteMember
+	
+	/**
+	 * 6. 아이디 중복확인용 서비스
+	 * @param checkId	중복확인하고자 하는 아이디
+	 * @return			해당 아이디와 일치하는 갯수 
+	 */
+	public int idCheck(String checkId) {
+		Connection conn = getConnection(); 
+		
+		int count = new MemberDao().idCheck(conn, checkId);
+		
+		close(conn);
+		
+		return count; 
+	}
 }
 
 

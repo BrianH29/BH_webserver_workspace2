@@ -58,6 +58,12 @@ SELECT * FROM MEMBER WHERE USER_ID = 'user01';
 
 UPDATE MEMBER SET STATUS='N' WHERE USER_ID = ? AND USER_PWD = ?;
 
+--6. 아이디 중복체크시 실행할 sql문
+SELECT
+       COUNT(*)
+  FROM MEMBER
+ WHERE USER_ID = ?;
+
 
 -- * 공지사항 서비스
 -- 1. 공지사항 전체 리스트 조회 요청시 실행할 sql문
@@ -330,6 +336,18 @@ SELECT
  ORDER 
     BY BOARD_NO DESC;
 
+SELECT
+       BOARD_NO
+     , CATEGORY_NAME
+     , BOARD_TITLE
+     , BOARD_CONTENT
+     , USER_ID
+     , CREATE_DATE
+    FROM BOARD B
+    LEFT JOIN CATEGORY USING(CATEGORY_NO)
+    JOIN MEMBER ON (BOARD_WRITER = USER_NO)
+    WHERE BOARD_NO = 100
+    AND B.STATUS = 'Y';
 
 
 

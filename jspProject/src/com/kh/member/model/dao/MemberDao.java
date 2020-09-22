@@ -216,5 +216,33 @@ public class MemberDao {
 			}
 			return result; 
 			
+		}//e.deleteMember
+		
+		public int idCheck(Connection conn, String checkId) {
+			int count = 0;
+			
+			PreparedStatement pstmt = null;
+			ResultSet rset = null; 
+			String sql = prop.getProperty("idCheck");
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, checkId);
+				
+				rset = pstmt.executeQuery();
+				
+				if(rset.next()) {
+					count = rset.getInt(1); //첫번쨰에 해당하는 값 SQL문 COUNT(*) 혹은 별칭을 부여해서 넣어도 됨. 
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+			}
+			return count; 
+			
 		}
 }
