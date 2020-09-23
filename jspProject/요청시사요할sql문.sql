@@ -64,7 +64,6 @@ SELECT
   FROM MEMBER
  WHERE USER_ID = ?;
 
-
 -- * 공지사항 서비스
 -- 1. 공지사항 전체 리스트 조회 요청시 실행할 sql문
 SELECT
@@ -349,8 +348,37 @@ SELECT
     WHERE BOARD_NO = 100
     AND B.STATUS = 'Y';
 
+--댓글 달아주기 샘플 데이터
+INSERT 
+  INTO REPLY
+  (
+       REPLY_NO
+     , REPLY_CONTENT
+     , REF_BNO
+     , REPLY_WRITER
+     , CREATE_DATE
+  )
+  VALUES
+  (
+       SEQ_RNO.NEXTVAL
+     , '시끄럽다'
+     , 110
+     , 3
+     , SYSDATE
+  );
+COMMIT;
 
-
+--댓글 리스트 조회시 실행할 sql문
+SELECT 
+       REPLY_NO
+     , REPLY_CONTENT
+     , USER_ID
+     , CREATE_DATE
+  FROM REPLY R
+  JOIN MEMBER ON (REPLY_WRITER = USER_NO)
+ WHERE REF_BNO = ?
+   AND R.STATUS = 'Y'
+ ORDER BY REPLY_NO DESC; 
 
 
 

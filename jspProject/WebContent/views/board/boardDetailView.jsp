@@ -87,13 +87,22 @@
 				<thead>
 					<tr>
 						<th>댓글작성</th>
-						<td><textarea cols="50" row="3" style="resize: none"></textarea>
+						<%if(loginUser == null){ // 로그인전 %>
+						<td colspan="2">
+							<textarea cols="60" row="3" style="resize: none" readonly>로그인 후 이용가능한 서비스입니다.</textarea>
 						</td>
-						<td><button>댓글등록</button></td>
+						<%}else{ // 로그인 후%>
+						<td>
+							<textarea id="replyContent" cols="50" row="3" style="resize: none"></textarea>
+						</td>
+						<td>
+							<button onclick="addReply();">댓글등록</button>
+						</td>
+						<%} %>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
+					<!--  <tr>
 						<td>admin</td>
 						<td>댓글내용</td>
 						<td>2020-09-15</td>
@@ -107,12 +116,75 @@
 						<td>admin3</td>
 						<td>댓글내용</td>
 						<td>2020-04-15</td>
-					</tr>
+					</tr>-->
 				</tbody>
 			</table>
 			<br />
 			<br />
 			<br />
+			<script>
+				$(function(){
+					selectReplyList(); // 페이지 로딩 된 직후에 이 게시글에 딸려있는 댓글리스트 조회 
+					
+					setInterval(selectReplyList, 1000); // 실시간으로 댓글 달아 놓은걸 볼 수 있다. 
+				});
+				
+				//해당 게시글에 댓글 작성용 ajax
+				function addReply(){
+					$.ajax({
+						url:"<%=contextPath%>/rinsert.bo",
+						type:"post",
+						data:{
+							content:$("#replyContent").val(),
+							bno : <%=b.getBoardNo()%>
+						},
+						success:function(result){
+							if(result>0){
+								//console.log("댓글작성성공");
+								selectReplyList(); 
+								$("#replyContent").val(""); 
+							}else{
+								//console.log("댓글작성실패");
+							}
+							
+							
+						},
+						error:function(){
+							console.log("댓글 작성용 ajax 실패")
+						}
+						
+					});
+				}
+				
+				//해당 게시글에 딸려있는 뎃글리스트 조회용 ajax
+				function selectReplyList(){
+					$.ajax({
+						url:"<%=contextPath%>/rlist.bo",
+						type:"get",
+						data:{
+							bno:<%=b.getBoardNo()%>
+						},
+						success:function(list){
+							//console.log(list); 
+							
+							var result = ""; 
+							for(var i in list){
+								result += "<tr>" + 
+											"<td>" + list[i].replyWriter + "</td>" +
+											"<td>" + list[i].replyContent + "</td>" +
+											"<td>" + list[i].createDate + "</td>" +
+										"</tr>";
+							}
+							$("#replyArea>table>tbody").html(result); 
+						},
+						error:function(){
+							console.log("댓글 리스트 조회요 ajax통신 실패")
+						}
+						
+					});
+				}
+				
+			</script>
 		</div>
 	</div>
 </body>

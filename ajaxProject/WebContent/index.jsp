@@ -58,7 +58,7 @@
 	<script>
 		function requestTest(){
 			//location.href="test2.do?input=" + $("#test").val(); 
-			location.href="test2.do?input=" + document.getElementById("test").value; 
+			location.href="test2.do?input=" + document.getElementById("#test").value; 
 		}
 	</script>
 	
@@ -229,6 +229,54 @@
 			});
 		}
 	</script>
+	
+	<h3>5. Gso을 이요한 ArrayList 가져와보기</h3>
+	<button onclick="test5();">회원 전체조회</button>
+	
+	<br><br>
+	
+	<table id="memberList2" border="1" style="text-align:center">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>이름</th>
+				<th>나이</th>
+				<th>성별</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+		</tbody>
+	</table>
+	<script>
+		function test5(){
+			$.ajax({
+				url:"jqAjax5.do",
+				type:"get",
+				success:function(list){
+					console.log(list);
+					
+					var result = "";
+					//for(var i=0; i<list.length; i++){
+					for(var i in list){
+						result += "<tr>" +
+									"<td>" + list[i].userNo + "</td>" +
+									"<td>" + list[i].userName + "</td>" +
+									"<td>" + list[i].age + "</td>" +
+									"<td>" + list[i].gender + "</td>" 
+								"</tr>";
+					}
+					$("#memberList2 tbody").html(result); 
+				},
+				error:function(){
+					console.log("fail")
+				}
+				
+			});
+		}
+	</script>
+	
+	
 	<br><br><br><br><br><br><br><br>
 </body>
 </html>
