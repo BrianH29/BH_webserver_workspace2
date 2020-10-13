@@ -106,7 +106,7 @@
 		       FILE_NO
 		     , ORIGIN_NAME
 		     , CHANGE_NAME
-		     , FILE_PATH
+		     , FILE_PATH	
 		  FROM ATTACHMENT
 		 WHERE REF_BNO = ?
 	</entry>

@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="selectReplyList"/>
+		<item key="selection" value=""/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="selecReplyLIst"/>
 			<item value="selectReplyList"/>
+			<item value="selectList"/>
+			<item value="updateBoard"/>
+			<item value="수정"/>
+			<item value="수정하기"/>
+			<item value="listCount"/>
+			<item value="count"/>
+			<item value="selectBoard"/>
+			<item value="increase"/>
+			<item value="selectAttachment"/>
+			<item value="selectThumb"/>
+			<item value="selecThumb"/>
+			<item value="select"/>
 			<item value="outer"/>
 		</list>
 		<list key="replacehistory">
