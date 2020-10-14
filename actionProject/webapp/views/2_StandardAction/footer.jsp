@@ -18,5 +18,7 @@
 	%>
 
 	<h4>Copyright © 1998-<%=year %> KH Information Educational Institute All Right Reserved</h4>
+	
+	test : ${param.test } <br>
 </body>
 </html>

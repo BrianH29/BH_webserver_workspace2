@@ -19,6 +19,8 @@ C:\BH_webserver_workspace2\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch
 \jspProject_el_jstl\src
 C:\BH_webserver_workspace2\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3655000377.index
 \jspProject\src
+C:\BH_webserver_workspace2\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2657611247.index
+\actionProject\src
 C:\BH_webserver_workspace2\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3695619849.index
 \jspProject_el_jstl\src
 C:\BH_webserver_workspace2\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3804584760.index

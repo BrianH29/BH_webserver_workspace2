@@ -73,6 +73,14 @@
 	 
 	 <a href="views/2_StandardAction/01_include.jsp">01_JSP:include</a>
 	 
+	 <a href="forward.do">02_jsp:forward</a>
+	 
+	 <hr>
+	 
+	 <h3>2.커스텀 액션 태그(Custom Action)</h3>
+	 <p>JSP페이지에서 별도의 라이브러리 연동 해야만 사용가능 / 태그 앞에 jsp:외의 다른 접두어 붙음</p>
+	 
+	 <a href="views/3_CustomAction/jstl.jsp">JSTL</a>
 	
 </body>
 </html>
