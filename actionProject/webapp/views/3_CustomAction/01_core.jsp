@@ -222,7 +222,48 @@
 		</tbody>
 	</table>
 	
+	<hr>
 	
+	<h3>4. 반복문 - forTokens (c:forTokens var="변수명" items="문자열" delims="구분자")</h3>
+	<p>
+		- 문자열에 포함된 구분자를 통해 각각의 토큰으로 분리 후 반복 처리 <br>
+		- JAVA의 split("구분자") 또는 StringTokenizer와 같은 기능 수행 <br> 
+		- items 속성에는 구분자를 포함하고 있는 문자열을 지정하고, 
+		  delims  속성에는 토큰을 분리하는데 사용할 구분자를 기술
+	</p>
+	
+	<c:set var="device" value="컴퓨터,핸드폰.TV/에어컨,냉장고.세탁기" />
+	
+	<ul>
+		<c:forTokens var="d" items="${device }" delims=",./" >
+			<li>${d }</li>
+		</c:forTokens>
+	</ul>
+	
+	
+	<hr>
+	
+	<h3>6. 쿼리스트링 (c:url, c:param)</h3>
+	<p>
+		- url 경로를 생성하고, 해당 url로 요청시 전달할 값을 생성 할 수 있는 태그(쿼리스트링을 정의할 수 있는 태그)<br>
+		
+		c:url var="변수명" value="요처할 url" </br>
+			c:param name="키값" value="전달할값" / <br>
+			c:param name="키값" value="전달할값" / <br>
+		/c:url
+		
+		변수명 = "요청할url?키값=전달값&키값=전달값"
+	</p>
+	
+	<a href="list.do?cPage=2&num=10">기본방식</a> <br>
+	
+	<c:url var="url" value="list.do">
+		<c:param name="cPage" value="2" />
+		<c:param name="num" value="10" /> 
+	</c:url>
+	<!-- url= "list.do?cPage=2&num=10" -->
+	
+	<a href="${url }">c:url 사용한방식</a>
 	
 	
 	

@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList, com.kh.notice.model.vo.Notice" %>
-<%
-	ArrayList<Notice> list = (ArrayList<Notice>)request.getAttribute("list"); 	
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +30,8 @@
 </head>
 <body>
 	<!--메뉴바 포함-->
-	<%@include file="../common/menubar.jsp"%>
+	<%-- <%@include file="../common/menubar.jsp"%> --%>
+	<jsp:include page="../common/menubar.jsp" />
 
 	<div class="outer">
 
@@ -40,16 +39,14 @@
 		<br>
 
 		<!--로그인한 사람이 관리자일 경우 -->
-		<%
-			if (loginUser != null && loginUser.getUserId().equals("admin")) {
-		%>
-		<div align="right" style="width: 700px">
-			<button onclick="location.href='<%= contextPath%>/enrollForm.no';">글작성</button>
-			<br><br>
-		</div>
-		<%
-			}
-		%>
+
+		<c:if test="${loginUser != null and loginUser.userId eq 'admin' }" > 
+			<div align="right" style="width: 700px">
+				<button onclick="location.href='${contextPath}/enrollForm.no';">글작성</button>
+				<br><br>
+			</div>
+		</c:if>
+
 
 		<table class="listArea" align="center">
 
@@ -65,22 +62,25 @@
 
 			<tbody>
 			<!-- 리스타가 비어있을 경우 -->
-			<%if(list.isEmpty()){ %>
-				<tr>
-					<td colspan="5">존재하는 공지사항 없습니다.</td>
-				</tr>
-			<%} else { %>
-			<!-- 리스타가 비어있지 않을 경우 -->
-				<% for(Notice n : list){ %>
-					<tr>
-						<td><%= n.getNoticeNo() %></td>
-						<td><%= n.getNoticeTitle() %></td>
-				 		<td><%= n.getNoticeWriter() %></td>
-						<td><%= n.getCount() %></td>
-						<td><%= n.getCreateDate() %></td>
-					</tr>
-					<%} %>
-				<%} %>
+				<c:choose>
+					<c:when test="${empty list}" >
+						<tr>
+							<td colspan="5">존재하는 공지사항 없습니다.</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<!-- 리스타가 비어있지 않을 경우 -->
+						<c:forEach var="n" items="${list }">
+							<tr>
+								<td>${n.noticeNo }</td>
+								<td>${n.noticeTitle }</td>
+								<td>${n.noticeWriter }</td>
+								<td>${n.count }</td>
+								<td>${n.createDate }</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 			</tbody>
 		</table>
 	</div>
@@ -94,7 +94,7 @@
 				
 				//console.log(nno);
 				// 쿼리스트링
-				location.href = "<%=contextPath%>/detail.no?nno=" + nno; 
+				location.href = "${contextPath}/detail.no?nno=" + nno; 
 			});
 		
 		});

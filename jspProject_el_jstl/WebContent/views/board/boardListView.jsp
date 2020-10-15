@@ -1,17 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList, com.kh.board.model.vo.*" %>
-<%
-	ArrayList<Board> list = (ArrayList<Board>)request.getAttribute("list");
-	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	
-	int listCount = pi.getListCount();
-	int currentPage = pi.getCurrentPage(); 
-	int startPage = pi.getStartPage();
-	int endPage = pi.getEndPage();
-	int maxPage = pi.getMaxPage(); 
-	
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +28,8 @@
 </head>
 <body>
 	<!-- 메뉴추가-->
-	<%@include file="../common/menubar.jsp" %>
+	<%-- <%@include file="../common/menubar.jsp" %> --%>
+	<jsp:include page="../common/menubar.jsp">
 	
     <div class="outer">
         <br>
@@ -46,13 +37,14 @@
         <br>
 
         <!--로그인 했을떄만-->
-        <%if(loginUser != null){ %>
-        <div align="right" style="width:860px;">
-            <button onclick="location.href='<%=contextPath%>/enrollForm.bo';">글작성</button>
-            <!-- <a href="<%=contextPath %>/enrollForm.bo" class="btn btn-secondary"></a>  -->
-            <br><br>
-        </div>
-        <%} %>
+        
+        <c:if test="${empty loginUser }">
+	        <div align="right" style="width:860px;">
+	            <button onclick="location.href='${contextPath}/enrollForm.bo';">글작성</button>
+	            <!-- <a href="<%=contextPath %>/enrollForm.bo" class="btn btn-secondary"></a>  -->
+	            <br><br>
+	        </div>
+        </c:if>
 
         <table align="center" class="listArea">
             <thead>
@@ -66,28 +58,32 @@
                 </tr>
             </thead>
             <tbody>
-            	<% if(list.isEmpty()) { %>
-            		<tr>
-            			<td colspan="6">조회된 리스트가 없습니다.</td>
-            		</tr>
-            	<%}else { %>
-            		<%for(Board b : list) { %>
-            		<tr>
-	                    <td><%=b.getBoardNo() %></td>
-	                    <td><%=b.getCategory() %></td>
-	                    <td><%=b.getBoardTitle() %></td>
-	                    <td><%=b.getBoardWriter() %></td>
-	                    <td><%=b.getCount() %></td>
-	                    <td><%=b.getCreateDate() %></td>
-                    </tr>
-                    <%} %>
-            	<%} %>
+            	<c:choose>
+	            	<c:when test="${empty list }">
+	            		<tr>
+	            			<td colspan="6">조회된 리스트가 없습니다.</td>
+	            		</tr>
+	            	</c:when>
+	            	<c:otherwise>
+	            		
+		            		<c:forEach var="b" items="${list }">
+		            		<tr>
+			                    <td>${b.boardNo }</td>
+			                    <td>${b.category }</td>
+			                    <td>${b.boardTitle }</td>
+			                    <td>${b.boardWrither }</td>
+			                    <td>${b.count }</td>
+			                    <td>${b.createDate }</td>
+		                    </tr>
+		                    </c:forEach>
+	                   </c:otherwise>
+            	</c:choose>
             </tbody>
         </table>
         <script>
         	$(function(){
         		$(".listArea>tbody>tr").click(function(){
-        			location.href = "<%=contextPath%>/detail.bo?bno=" + $(this).children().eq(0).text(); 
+        			location.href = "detail.bo?bno=" + $(this).children().eq(0).text(); 
         		});
         	});
         	
@@ -96,27 +92,30 @@
         <br><br>
 
         <div class="pagingArea" align="center">
-       	 	<%if(currentPage != 1){ %>
+       	 	<c:if test="${pi.currentPage != 1 }">
 	            <!-- 맨처음로(<<) -->
-	            <button onclick="location.href='<%=contextPath%>/list.bo?currentPage=1';">&lt;&lt;</button>
+	            <button onclick="location.href='list.bo?currentPage=1';">&lt;&lt;</button>
 	            <!--이전페이지(<)-->
-	            <button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=currentPage-1%>';">&lt;</button>
-           	<%} %>
+	            <button onclick="location.href='${contextPath }/list.bo?currentPage=${pi.currentPage -1 }';">&lt;</button>
+           	</c:if>
 
-			<% for(int p=startPage; p<=endPage; p++) {%>
-				<%if(p != currentPage) {%>
-            	<button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=p%>';"><%=p %></button>
-            	<%}else { %>
-            	<button disabled><%=p %></button>
-            	<%} %>
-            <%} %>
+			<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
+				<c:choose>
+					<c:when test="${p != pi.currentPage }">
+	            		<button onclick="location.href='list.bo?currentPage=${p}';">${p }</button>
+	            	</c:when>
+	            	<c:otherwise>
+	            		<button disabled>${p }</button>
+	            	</c:otherwise>
+            	</c:choose>
+            </c:forEach>
 	
-			<%if(currentPage != maxPage){ %>
+			<c:if test="${pi.currentPage != pi.maxPage }">
 	            <!--다음페이지로(>)-->
-	            <button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=currentPage+1%>';">&gt;</button>
+	            <button onclick="location.href='list.bo?currentPage=${pi.currentPage + 1}';">&gt;</button>
 	            <!--맨끝으로(>>)-->
-	            <button onclick="location.href='<%=contextPath%>/list.bo?currentPage=<%=maxPage%>';">&gt;&gt;</button>
-            <%} %>
+	            <button onclick="location.href='list.bo?currentPage=${pi.maxPage}';">&gt;&gt;</button>
+            </c:if>
         </div>
     </div>
 </body>

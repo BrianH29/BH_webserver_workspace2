@@ -24,51 +24,43 @@
 </style>
 </head>
 <body>
-	<%@include file="../common/menubar.jsp"%>
+	<%-- <%@include file="../common/menubar.jsp"%> --%>
+	<jsp:include page="../common/menubar.jsp" />
 
-	<%
-		String userId = loginUser.getUserId();
-		String userName = loginUser.getUserName();
-		String phone = (loginUser.getPhone() == null) ? "" : loginUser.getPhone();
-		String email = (loginUser.getEmail() == null) ? "" : loginUser.getEmail();
-		String address = (loginUser.getAddress() == null) ? "" : loginUser.getAddress();
-		String interest = (loginUser.getInterest() == null) ? "" : loginUser.getInterest();
-		// "운동,요리"
-	%>
 	<div class="outer">
 		<br>
 
 		<h2 align="center">마이페이지</h2>
 
-		<form action="<%=contextPath%>/update.me" id="myPageForm"
+		<form action="${contextPath }/update.me" id="myPageForm"
 			method="post">
 			<table>
 				<tr>
 					<td>* 아이디</td>
 					<td><input type="text" name="userId" maxlength="12" required
-						value="<%=userId%>"></td>
+						value="${loginUser.userId }"></td>
 				</tr>
 
 				<tr>
 					<td>* 이름</td>
 					<td><input type="text" name="userName" maxlength="5" required
-						value="<%=userName%>" readonly></td>
+						value="${loginUser.userName }" readonly></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>&nbsp;&nbsp;전화번호</td>
 					<td><input type="tel" name="phone" placeholder="(-포함)"
-						value="<%=phone%>"></td>
+						value="${loginUser.phone }"></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>&nbsp;&nbsp;이메일</td>
-					<td><input type="email" name="email" value="<%=email%>"></td>
+					<td><input type="email" name="email" value="${loginUser.email }"></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>&nbsp;&nbsp;주소</td>
-					<td><input type="text" name="address" value="<%=address%>"></td>
+					<td><input type="text" name="address" value="${loginUser.address }"></td>
 					<td></td>
 				</tr>
 				<tr>
@@ -90,8 +82,7 @@
 			<script>
             	$(function(){
             		
-            		var interest = "<%=interest%>
-				";
+            		var interest = "${loginUser.interest}";
 					// "운동, 등산, 요리" 
 
 					$("input[type=checkbox]").each(function() {
@@ -133,9 +124,9 @@
 
 						<b>탈퇴 후 복구가 불가능합니다. <br> 정말로 탈퇴 하시겠습니까?
 						</b> <br>
-						<form action="<%=contextPath%>/delete.me" method="POST">
+						<form action="delete.me" method="POST">
 							비밀번호 : <input type="password" name="userPwd" required> <input
-								type="hidden" name="userId" value="<%=loginUser.getUserId()%>">
+								type="hidden" name="userId" value="${loginUser.userId }">
 							<br>
 							<br>
 							<button type="submit" class="btn btn-danger">탈퇴하기</button>
@@ -160,9 +151,8 @@
 					<!-- Modal body -->
 					<div class="modal-body" align="center">
 
-						<form action="<%=contextPath%>/updatePwd.me" method="POST">
-							<input type="hidden" name="userId"
-								value="<%=loginUser.getUserId()%>">
+						<form action="updatePwd.me" method="POST">
+							<input type="hidden" name="userId" value="${loginUser.userId }">
 
 							<table>
 								<tr>

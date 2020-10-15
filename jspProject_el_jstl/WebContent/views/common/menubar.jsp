@@ -1,13 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="com.kh.member.model.vo.Member" %>
+<%@ page import="com.kh.member.model.vo.Member" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-	String contextPath = request.getContextPath();
-	
-	Member loginUser = (Member)session.getAttribute("loginUser");
-	// 로그인 전 : null
-	// 로그인 후 : 로그인 성공한 회원정보들이 담겨있는 객체  
-	
+	//String contextPath = request.getContextPath();
+
 	String alertMsg = (String)session.getAttribute("alertMsg");
 	// > 서비스 요청 전: null
 	// > 서비스 요청 성공 후 : alert띄어줄 메시지 문구 
@@ -87,54 +84,60 @@
 </script>
 </head>
 <body>
+	<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>
+
 	<h1 align="center">Welcome JSP World!!</h1>
 
 	<div class="loginArea">
 
-		<% if(loginUser == null) { %>
 
-		<!-- 1. 로그인 전에 보여지는 로그인 form -->
-		<form id="loginForm" action="<%=request.getContextPath() %>/login.me" method="post">
-			<table>
-				<tr>
-					<th><label for="userId">ID : </label></th>
-					<td><input type="text" id="userId" name="userId" required></td>
-				</tr>
-				<tr>
-					<th><label for="userPwd">password:</label></th>
-					<td><input type="password" id="userPwd" name="userPwd"
-						required></td>
-				</tr>
-				<tr>
-					<th colspan="2" style="text-align:center;">
-						<button type="submit">LOGIN</button>
-						<button type="button" onclick="enrollPage();">REGISTER</button>
-					</th>
-				</tr>
-			</table>
-		</form>
-		<script>
-			function enrollPage(){
-				//location.href="/jsp/views/member/memberEnrollForm.jsp";
-				// 웹 어플리케이션의 디렉토리 구조가 url에 노출되면 보안에 위험
-				
-				// 단순한 정적인 페이지 이동이라고 해도 반드시 servlet 거쳐갈것!! => url에	 서블릿 매핑값만 노출됨! 
-				location.href="<%=request.getContextPath()%>/enrollForm.me";
-				
-			}
-		</script>
-		<%} else { %>
-		<!-- 2.로그인 성공 후 보여지는 div-->
-        <div id="userInfo">
-            <b><%=loginUser.getUserName() %>님</b>의 방문을 환영합니다. <br><br>
+		<c:choose>
+			<c:when test="${loginUser == null }">
+				<!-- or ${empty loginUser} -->
+				<!-- 1. 로그인 전에 보여지는 로그인 form -->
+				<form id="loginForm" action="${contextPath }/login.me" method="post">
+					<table>
+						<tr>
+							<th><label for="userId">ID : </label></th>
+							<td><input type="text" id="userId" name="userId" required></td>
+						</tr>
+						<tr>
+							<th><label for="userPwd">password:</label></th>
+							<td><input type="password" id="userPwd" name="userPwd"
+								required></td>
+						</tr>
+						<tr>
+							<th colspan="2" style="text-align: center;">
+								<button type="submit">LOGIN</button>
+								<button type="button" onclick="enrollPage();">REGISTER</button>
+							</th>
+						</tr>
+					</table>
+				</form>
+				<script>
+					function enrollPage(){
+						//location.href="/jsp/views/member/memberEnrollForm.jsp";
+						// 웹 어플리케이션의 디렉토리 구조가 url에 노출되면 보안에 위험
+						
+						// 단순한 정적인 페이지 이동이라고 해도 반드시 servlet 거쳐갈것!! => url에	 서블릿 매핑값만 노출됨! 
+						location.href="${contextPath}/enrollForm.me";
 
-            <div align="center">
-                <a href="<%= contextPath %>/myPage.me">MyPage</a>
-                <a href="<%=request.getContextPath() %>/logout.me">Logout</a>
-            </div>
-        </div>
-		<%} %>
-		
+					}
+				</script>
+			</c:when>
+			<c:otherwise>>
+				<!-- 2.로그인 성공 후 보여지는 div-->
+				<div id="userInfo">
+					<b>${loginUser.userName }님</b>의 방문을 환영합니다. <br>
+					<br>
+
+					<div align="center">
+						<a href="${contextPath }/myPage.me">MyPage</a>
+						<a href="${ pageContext.servletContext.contextPath }logout.me">Logout</a>
+					</div>
+				</div>
+			</c:otherwise>
+		</c:choose>
 	</div> <!-- e.loginArea -->
 
 	<br clear="both">
@@ -143,16 +146,16 @@
 
 	<div class="navWrap" align="center">
 		<div class="menu">
-			<a href="<%= contextPath%>">HOME</a>
+			<a href="${contextPath }">HOME</a>
 		</div>
 		<div class="menu">
-			<a href="<%= contextPath %>/list.no">공지사항</a>
+			<a href="${contextPath }/list.no">공지사항</a>
 		</div>
 		<div class="menu">
-			<a href="<%= contextPath%>/list.bo?currentPage=1">일반게시판</a>
+			<a href="${contextPath }/list.bo?currentPage=1">일반게시판</a>
 		</div>
 		<div class="menu">
-			<a href="<%=contextPath%>/list.th">사진게시판</a>
+			<a href="${contextPath }/list.th">사진게시판</a>
 		</div>
 	</div>
 </body>
