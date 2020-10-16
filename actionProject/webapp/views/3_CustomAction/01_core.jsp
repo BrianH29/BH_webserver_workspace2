@@ -266,8 +266,8 @@
 	<a href="${url }">c:url 사용한방식</a>
 	
 	
-	
-	
 	<br><br><br><br><br><br><br><br><br><br>
 </body>
 </html>
+	
+	
